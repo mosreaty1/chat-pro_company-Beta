@@ -323,4 +323,6 @@ For support, please:
 
 ---
 
+<img width="1920" height="1080" alt="Screenshot (367)" src="https://github.com/user-attachments/assets/a355a4f3-00f9-400f-8d24-3e1501ab04b2" />
+
 **Made with ❤️ by Mohamed Alsariti _ Khalid Abd alsalam**
