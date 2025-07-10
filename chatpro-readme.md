@@ -3,7 +3,6 @@
 A modern, feature-rich real-time chat application built with Socket.IO, offering seamless communication with a professional interface.
 
 ## 🚀 Features
-
 ### Core Functionality
 - **Real-time messaging** with Socket.IO
 - **Multiple chat rooms** (public and private)
