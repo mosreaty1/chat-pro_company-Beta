@@ -324,6 +324,4 @@ For support, please:
 
 ---
 
-**Made with ❤️ by [Your Name]**
-
-*Star ⭐ this repository if you find it helpful!*
+**Made with ❤️ by Mohamed Alsariti _ Khalid Abd alsalam**
