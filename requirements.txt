@@ -1,0 +1,6 @@
+flask==2.3.2
+flask-socketio==5.3.4
+pymongo==4.3.3
+python-dotenv==1.0.0
+werkzeug==2.3.6
+dnspython==2.4.2

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatPro - Professional Communication Platform</title>
+    <link rel="stylesheet" href="/static/css/chat.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'/></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <span class="brand-text">ChatPro</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="user-profile">
+                <div class="user-avatar" id="user-avatar">
+                    <span id="user-initials">{{ username[0].upper() if username else 'U' }}</span>
+                    <div class="status-indicator online"></div>
+                </div>
+                <div class="user-info">
+                    <h3 class="username" id="username-display">{{ username or 'User' }}</h3>
+                    <span class="user-status">Online</span>
+                </div>
+                <div class="user-actions">
+                    <button class="action-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="action-btn" onclick="logout()" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="search-section">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search conversations..." id="search-input">
+                </div>
+            </div>
+
+            <div class="rooms-section">
+                <div class="section-header">
+                    <h4>Channels</h4>
+                    <button class="create-btn" id="create-room-btn" title="Create new channel">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="rooms-list" id="rooms-list">
+                    {% for room in public_rooms %}
+                    <div class="room-item" data-room-id="{{ room._id }}" data-room-name="{{ room.name }}">
+                        <div class="room-icon">
+                            <i class="fas fa-hashtag"></i>
+                        </div>
+                        <div class="room-content">
+                            <span class="room-name">{{ room.name }}</span>
+                            <span class="room-members">{{ room.members|length }} members</span>
+                        </div>
+                        <div class="room-status">
+                            <span class="unread-count" style="display: none;">0</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="private-rooms-section">
+                <div class="section-header">
+                    <h4>Direct Messages</h4>
+                    <button class="create-btn" title="Start new conversation">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="private-rooms-list" id="private-rooms-list">
+                    {% for room in user_rooms %}
+                    {% if room.is_private %}
+                    <div class="room-item private" data-room-id="{{ room._id }}" data-room-name="{{ room.name }}">
+                        <div class="room-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="room-content">
+                            <span class="room-name">{{ room.name }}</span>
+                            <span class="last-message">Last message preview...</span>
+                        </div>
+                        <div class="room-status">
+                            <span class="message-time">2m</span>
+                            <span class="unread-count" style="display: none;">0</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <header class="chat-header">
+                <div class="chat-info">
+                    <div class="chat-title">
+                        <h2 id="current-room-name">Select a channel</h2>
+                        <span class="chat-description" id="room-description">Welcome to ChatPro</span>
+                    </div>
+                    <div class="chat-members">
+                        <span class="members-count" id="members-count">0 members</span>
+                        <div class="members-avatars" id="members-avatars">
+                            <!-- Member avatars will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button class="header-btn" title="Call">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <button class="header-btn" title="Video call">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="header-btn" title="Search in conversation">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="header-btn" title="More options">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="messages-area">
+                <div class="messages-container" id="messages-container">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Welcome to ChatPro</h3>
+                        <p>Select a channel from the sidebar to start chatting with your team.</p>
+                    </div>
+                </div>
+                <div class="scroll-to-bottom" id="scroll-to-bottom" style="display: none;">
+                    <button class="scroll-btn">
+                        <i class="fas fa-chevron-down"></i>
+                        <span>New messages</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="message-composer">
+                <div class="composer-toolbar">
+                    <button class="toolbar-btn" title="Attach file">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button class="toolbar-btn" title="Insert emoji">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    <button class="toolbar-btn" title="Format text">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                </div>
+                <div class="composer-input">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="message-input" 
+                            placeholder="Type a message..." 
+                            rows="1"
+                            maxlength="2000"></textarea>
+                        <div class="input-actions">
+                            <button class="send-btn" id="send-btn" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="composer-footer">
+                    <span class="typing-indicator" id="typing-indicator" style="display: none;">
+                        <span class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                        <span class="typing-text">Someone is typing...</span>
+                    </span>
+                    <span class="character-count" id="character-count">0/2000</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modal-overlay">
+        <!-- Create Room Modal -->
+        <div class="modal" id="create-room-modal">
+            <div class="modal-header">
+                <h3>Create New Channel</h3>
+                <button class="modal-close" data-modal="create-room-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="room-name">Channel Name</label>
+                    <input type="text" id="room-name" placeholder="e.g. marketing-team" maxlength="50">
+                    <small>Channel names must be lowercase and can contain dashes.</small>
+                </div>
+                <div class="form-group">
+                    <label for="room-description">Description (optional)</label>
+                    <textarea id="room-description" placeholder="What's this channel about?" rows="3" maxlength="200"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="room-private">
+                        <span class="checkmark"></span>
+                        Make this channel private
+                    </label>
+                    <small>Private channels are only visible to invited members.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-modal="create-room-modal">Cancel</button>
+                <button class="btn btn-primary" id="confirm-create-room">Create Channel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="/static/js/chat.js"></script>
+    <script>
+setTimeout(() => {
+    document.querySelector('.notification')?.remove();
+}, 2000);
+</script>
+</body>
+</html>

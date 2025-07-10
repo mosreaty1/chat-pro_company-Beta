@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - ChatPro</title>
+    <meta name="description" content="Sign in to ChatPro - Professional team communication platform">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/auth.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230ea5e9'><path d='M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'/></svg>">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Header -->
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h1>Welcome Back</h1>
+                <p>Sign in to your ChatPro account to continue</p>
+            </div>
+
+            <!-- Error Alert -->
+            {% if error %}
+            <div class="alert error" role="alert">
+                <i class="fas fa-exclamation-circle alert-icon" aria-hidden="true"></i>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form class="auth-form" action="/login" method="POST" novalidate>
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            class="form-input" 
+                            placeholder="Enter your username"
+                            required 
+                            autocomplete="username"
+                            autofocus
+                        >
+                        <i class="fas fa-user input-icon" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required 
+                            autocomplete="current-password"
+                        >
+                        <i class="fas fa-lock input-icon" aria-hidden="true"></i>
+                        <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 1rem 0;">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember" name="remember" class="checkbox-input">
+                        <label for="remember" class="checkbox-label">Remember me</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="#" class="auth-link">Forgot password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Social Login -->
+            <div class="social-login">
+                <div class="divider">Or continue with</div>
+                <div class="social-buttons">
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-google" aria-hidden="true"></i>
+                        Google
+                    </button>
+                    <button type="button" class="btn-social">
+                        <i class="fab fa-microsoft" aria-hidden="true"></i>
+                        Microsoft
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="auth-footer">
+                <p>Don't have an account?</p>
+                <a href="/register" class="auth-link">Create an account</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Enhanced form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.auth-form');
+            const submitBtn = document.querySelector('.btn-primary');
+            const passwordInput = document.getElementById('password');
+            const passwordToggle = document.querySelector('.password-toggle');
+            const authCard = document.querySelector('.auth-card');
+
+            // Password visibility toggle
+            if (passwordToggle && passwordInput) {
+                passwordToggle.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                });
+            }
+
+            // Form submission handling
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const username = document.getElementById('username').value.trim();
+                    const password = document.getElementById('password').value.trim();
+
+                    // Basic validation
+                    if (!username || !password) {
+                        e.preventDefault();
+                        showAlert('Please fill in all fields', 'error');
+                        return;
+                    }
+
+                    // Add loading state
+                    submitBtn.classList.add('loading');
+                    submitBtn.textContent = '';
+                    authCard.classList.add('submitting');
+                    
+                    // Remove loading state after 10 seconds (fallback)
+                    setTimeout(() => {
+                        submitBtn.classList.remove('loading');
+                        submitBtn.textContent = 'Sign In';
+                        authCard.classList.remove('submitting');
+                    }, 10000);
+                });
+            }
+
+            // Input validation and styling
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                // Real-time validation feedback
+                input.addEventListener('blur', function() {
+                    validateInput(this);
+                });
+
+                input.addEventListener('input', function() {
+                    // Remove error state when user starts typing
+                    this.classList.remove('error');
+                    const errorMsg = this.parentNode.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
+                });
+            });
+
+            // Auto-focus improvements
+            const firstInput = document.querySelector('.form-input');
+            if (firstInput && !firstInput.value) {
+                firstInput.focus();
+            }
+
+            // Keyboard navigation improvements
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && document.activeElement.classList.contains('form-input')) {
+                    const inputs = Array.from(document.querySelectorAll('.form-input'));
+                    const currentIndex = inputs.indexOf(document.activeElement);
+                    const nextInput = inputs[currentIndex + 1];
+                    
+                    if (nextInput) {
+                        e.preventDefault();
+                        nextInput.focus();
+                    }
+                }
+            });
+        });
+
+        function validateInput(input) {
+            const value = input.value.trim();
+            let isValid = true;
+            let message = '';
+
+            // Remove existing error state
+            input.classList.remove('error');
+            const existingError = input.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Validation rules
+            if (input.name === 'username') {
+                if (!value) {
+                    isValid = false;
+                    message = 'Username is required';
+                } else if (value.length < 3) {
+                    isValid = false;
+                    message = 'Username must be at least 3 characters';
+                }
+            } else if (input.name === 'password') {
+                if (!value) {
+                    isValid = false;
+                    message = 'Password is required';
+                } else if (value.length < 6) {
+                    isValid = false;
+                    message = 'Password must be at least 6 characters';
+                }
+            }
+
+            // Show error if invalid
+            if (!isValid) {
+                input.classList.add('error');
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = message;
+                errorDiv.style.cssText = 'color: #ef4444; font-size: 0.75rem; margin-top: 0.25rem;';
+                input.parentNode.appendChild(errorDiv);
+            }
+
+            return isValid;
+        }
+
+        function showAlert(message, type = 'error') {
+            // Remove existing alerts
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
+            // Create new alert
+            const alert = document.createElement('div');
+            alert.className = `alert ${type}`;
+            alert.setAttribute('role', 'alert');
+            
+            const icon = type === 'error' ? 'fa-exclamation-circle' : 
+                        type === 'success' ? 'fa-check-circle' : 'fa-info-circle';
+            
+            alert.innerHTML = `
+                <i class="fas ${icon} alert-icon" aria-hidden="true"></i>
+                <span>${message}</span>
+            `;
+
+            // Insert before form
+            const form = document.querySelector('.auth-form');
+            form.parentNode.insertBefore(alert, form);
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        // Social login handlers (placeholder)
+        document.querySelectorAll('.btn-social').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const provider = this.textContent.trim();
+                showAlert(`${provider} login coming soon!`, 'info');
+            });
+        });
+
+        // Add error styling for invalid inputs
+        const style = document.createElement('style');
+        style.textContent = `
+            .form-input.error {
+                border-color: #ef4444;
+                background-color: #fef2f2;
+            }
+            .form-input.error:focus {
+                border-color: #ef4444;
+                box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

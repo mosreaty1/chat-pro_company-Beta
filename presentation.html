@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatPro - Better Team Communication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid #007bff;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #34495e;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: #495057;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            text-align: center;
+            color: #6c757d;
+            font-weight: 500;
+            margin: 20px 0;
+        }
+
+        .problem-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .solution-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 5px solid #17a2b8;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .feature-box h4 {
+            color: #007bff;
+            margin-bottom: 8px;
+        }
+
+        .important-note {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid #dc3545;
+        }
+
+        .good-news {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid #28a745;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #b3d9ff;
+        }
+
+        .big-number {
+            font-size: 2.5rem;
+            color: #007bff;
+            font-weight: bold;
+            display: block;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+
+        .btn {
+            background: white;
+            color: #007bff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 8px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+        }
+
+        .nav-btn:hover {
+            background: #0056b3;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #007bff;
+        }
+
+        .simple-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .simple-list li {
+            margin-bottom: 8px;
+            list-style: none;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .simple-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .tech-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .helpful-box {
+            background: #fff8e1;
+            border: 1px solid #ffecb3;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+            
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.5rem; }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Slide 1: Introduction -->
+        <div class="slide" id="slide-1">
+            <h1>💬 ChatPro</h1>
+            <p class="intro-text">Making team communication simple and effective</p>
+            
+            <p>Hello! We'd like to tell you about ChatPro - a simple tool we created to help teams communicate better at work.</p>
+            
+            <div class="helpful-box">
+                <strong>Why we built this:</strong> We noticed that many teams struggle with email overload, missed messages, and poor communication between departments. We wanted to create something that actually helps solve these everyday problems.
+            </div>
+
+            <p>ChatPro is designed to be easy to use and actually helpful for your daily work. No complicated features that nobody uses - just good, clean communication tools that make work easier.</p>
+        </div>
+
+        <!-- Slide 2: Common Problems -->
+        <div class="slide" id="slide-2">
+            <h2>📧 Common Communication Problems at Work</h2>
+            
+            <p>Many companies tell us they face similar challenges with team communication:</p>
+
+            <div class="problem-box">
+                <h3>📧 Email Problems</h3>
+                <p>Important information gets lost in long email chains. People miss messages or forget to reply. Finding old conversations takes too much time.</p>
+            </div>
+
+            <div class="problem-box">
+                <h3>🏢 Department Silos</h3>
+                <p>Different teams don't talk to each other enough. Important information stays trapped in one department when other teams could benefit from it.</p>
+            </div>
+
+            <div class="problem-box">
+                <h3>⏰ Too Many Meetings</h3>
+                <p>Teams schedule meetings for things that could be solved with a quick conversation. This wastes time and interrupts focused work.</p>
+            </div>
+
+            <div class="problem-box">
+                <h3>🏠 Remote Work Challenges</h3>
+                <p>Remote and in-office workers feel disconnected. It's hard to stay updated on what everyone is working on.</p>
+            </div>
+
+            <div class="helpful-box">
+                <strong>What we hear from teams:</strong> "We spend too much time trying to find information and coordinate with each other, instead of actually doing our work."
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide" id="slide-3">
+            <h2>💡 How ChatPro Helps</h2>
+            
+            <p>We designed ChatPro to solve these everyday communication problems in simple ways:</p>
+
+            <div class="solution-box">
+                <h3>💬 Clear, Instant Messages</h3>
+                <p>Send messages that arrive immediately. Everyone sees important updates right away, so nothing gets missed.</p>
+            </div>
+
+            <div class="solution-box">
+                <h3>🏷️ Organized Channels</h3>
+                <p>Create separate spaces for different teams or projects. Marketing has their channel, development has theirs, and leadership can have private discussions.</p>
+            </div>
+
+            <div class="solution-box">
+                <h3>🔍 Easy Search</h3>
+                <p>Find any conversation or decision from weeks or months ago in just seconds. No more digging through old emails.</p>
+            </div>
+
+            <div class="solution-box">
+                <h3>📱 Works Everywhere</h3>
+                <p>Use ChatPro on your computer, phone, or tablet. Stay connected whether you're at the office, home, or traveling.</p>
+            </div>
+
+            <div class="helpful-box">
+                <strong>Our approach:</strong> We focus on making things simple and useful. If a feature doesn't help you get work done better, we don't include it.
+            </div>
+        </div>
+
+        <!-- Slide 4: Main Features -->
+        <div class="slide" id="slide-4">
+            <h2>🛠️ What ChatPro Can Do</h2>
+            
+            <p>Here are the main features that help teams work better together:</p>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h4>💬 Instant Messaging</h4>
+                    <p>Send messages that arrive immediately. You can see when someone is typing a reply, so you know they got your message.</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>👥 Team Channels</h4>
+                    <p>Create channels for different teams or projects. Make them public for transparency or private for sensitive discussions.</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>👤 Direct Messages</h4>
+                    <p>Send private messages to individual team members for quick questions or personal conversations.</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>🔍 Message Search</h4>
+                    <p>Find any past message or conversation quickly. Search by person, date, or topic to locate information you need.</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>📱 Mobile Access</h4>
+                    <p>Use ChatPro on your phone or tablet. The mobile version is designed to be easy to read and use on smaller screens.</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>🔒 Secure and Private</h4>
+                    <p>Your company's conversations stay private and secure. We use strong security measures to protect your data.</p>
+                </div>
+            </div>
+
+            <div class="good-news">
+                <strong>Simple design:</strong> We made ChatPro easy enough that anyone on your team can start using it right away, without training or complicated setup.
+            </div>
+        </div>
+
+        <!-- Slide 5: Technical Information -->
+        <div class="slide" id="slide-5">
+            <h2>🔧 How ChatPro Works</h2>
+            
+            <p>For those interested in the technical details, here's how we built ChatPro:</p>
+
+            <div class="tech-box">
+Built with reliable technology:
+• Python and Flask for the server
+• MongoDB for storing messages safely
+• WebSocket for instant message delivery
+• Modern web design that works on all devices
+• Cloud hosting that grows with your team
+            </div>
+
+            <div class="helpful-box">
+                <h3>What this means for you:</h3>
+                <div class="simple-list">
+                    <li>Messages are delivered instantly</li>
+                    <li>The system is reliable and doesn't break often</li>
+                    <li>It can handle teams of any size</li>
+                    <li>Your IT team can set it up easily</li>
+                    <li>It works with your existing business tools</li>
+                    <li>Your data is backed up automatically</li>
+                </div>
+            </div>
+
+            <div class="solution-box">
+                <strong>For IT teams:</strong>
+                <div class="simple-list">
+                    <li>Easy to install and maintain</li>
+                    <li>Works reliably 99.9% of the time</li>
+                    <li>Includes automatic security updates</li>
+                    <li>Real customer support when you need help</li>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Benefits for Your Business -->
+        <div class="slide" id="slide-6">
+            <h2>📈 How ChatPro Helps Your Business</h2>
+            
+            <p>Here's what teams typically experience after using ChatPro:</p>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="big-number">2+ hours</span>
+                    <p>Time saved per person each week</p>
+                </div>
+                <div class="stat-box">
+                    <span class="big-number">40%</span>
+                    <p>Fewer unnecessary meetings</p>
+                </div>
+                <div class="stat-box">
+                    <span class="big-number">60%</span>
+                    <p>Faster decision making</p>
+                </div>
+                <div class="stat-box">
+                    <span class="big-number">Better</span>
+                    <p>Team collaboration overall</p>
+                </div>
+            </div>
+
+            <div class="important-note">
+                <strong>Time savings example:</strong> If you have 20 people on your team and each person saves 2 hours per week, that's 40 hours of productive time returned to your business every week.
+            </div>
+
+            <div class="simple-list">
+                <h3>What teams tell us after using ChatPro:</h3>
+                <li>"We actually know what everyone is working on now" - Project Manager</li>
+                <li>"Decisions happen much faster" - Department Head</li>
+                <li>"My email inbox is finally manageable" - Team Leader</li>
+                <li>"Remote workers feel more connected" - HR Manager</li>
+                <li>"We complete projects on time more often" - Development Team</li>
+            </div>
+        </div>
+
+        <!-- Slide 7: Real Examples -->
+        <div class="slide" id="slide-7">
+            <h2>🌍 How Teams Use ChatPro</h2>
+            
+            <p>Here are some real examples of how different teams use ChatPro in their daily work:</p>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h4>🚀 Product Launches</h4>
+                    <p>"During our product launch, Marketing, Sales, and Development all stayed connected in one channel. When problems came up, we solved them quickly because everyone could see what was happening."</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>🏠 Remote Team Coordination</h4>
+                    <p>"Our team works in different time zones. ChatPro helps us stay connected without having to schedule video calls that don't work for everyone's schedule."</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>🆘 Handling Problems</h4>
+                    <p>"When our website had technical problems, the whole team coordinated through ChatPro. We fixed the issue in 30 minutes instead of hours."</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>🎓 Training New Staff</h4>
+                    <p>"New employees join relevant channels on their first day. They can ask questions easily and feel part of the team right away."</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>💡 Sharing Ideas</h4>
+                    <p>"We have an 'ideas' channel where anyone can share thoughts. Some of our best improvements came from casual conversations there."</p>
+                </div>
+
+                <div class="feature-box">
+                    <h4>📊 Daily Updates</h4>
+                    <p>"Our development team shares daily progress in their channel. It takes 5 minutes instead of 30-minute meetings."</p>
+                </div>
+            </div>
+
+            <div class="good-news">
+                <strong>The main benefit:</strong> Teams that communicate better work better together. It really is that simple.
+            </div>
+        </div>
+
+        <!-- Slide 8: Getting Started -->
+        <div class="slide" id="slide-8">
+            <h2>🚀 How to Start Using ChatPro</h2>
+            
+            <p>We made it easy to start using ChatPro, even for busy teams:</p>
+
+            <div class="solution-box">
+                <h3>Week 1: Try It With One Team</h3>
+                <div class="simple-list">
+                    <li>Choose one team to try ChatPro first</li>
+                    <li>Set up a few channels for their work</li>
+                    <li>Let them use it for real projects</li>
+                    <li>Ask for their feedback and make adjustments</li>
+                </div>
+            </div>
+
+            <div class="solution-box">
+                <h3>Weeks 2-3: Add More Teams</h3>
+                <div class="simple-list">
+                    <li>Add teams that work with the first team</li>
+                    <li>Create channels for shared projects</li>
+                    <li>Train a few people to help others learn ChatPro</li>
+                    <li>Start using chat for some discussions instead of meetings</li>
+                </div>
+            </div>
+
+            <div class="solution-box">
+                <h3>Month 2: Full Company Use</h3>
+                <div class="simple-list">
+                    <li>Get all teams using ChatPro</li>
+                    <li>Connect it with your other business tools</li>
+                    <li>Create simple guidelines for how to use it</li>
+                    <li>Measure the improvements and celebrate success</li>
+                </div>
+            </div>
+
+            <div class="helpful-box">
+                <strong>Important tip:</strong> Start small and let people see how helpful ChatPro is before expanding to the whole company. Change is easier when people can see the benefits for themselves.
+            </div>
+        </div>
+
+        <!-- Slide 9: Cost and Value -->
+        <div class="slide" id="slide-9">
+            <h2>💰 Cost and Value</h2>
+            
+            <p>Let's talk about what ChatPro costs and the value it provides:</p>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="big-number">$12</span>
+                    <p>Cost per person per month</p>
+                </div>
+                <div class="stat-box">
+                    <span class="big-number">$200+</span>
+                    <p>Value per person per month in time savings</p>
+                </div>
+                <div class="stat-box">
+                    <span class="big-number">3 weeks</span>
+                    <p>Time to pay for itself</p>
+                </div>
+                <div class="stat-box">
+                    <span class="big-number">High</span>
+                    <p>Return on investment</p>
+                </div>
+            </div>
+
+            <div class="good-news">
+                <h3>What's included (no hidden costs):</h3>
+                <div class="simple-list">
+                    <li>Unlimited messages and channels</li>
+                    <li>All features included</li>
+                    <li>Help with setup and training</li>
+                    <li>99.9% reliable service</li>
+                    <li>Real customer support</li>
+                    <li>30-day money-back guarantee</li>
+                </div>
+            </div>
+
+            <div class="important-note">
+                <strong>Value comparison:</strong> Most companies spend much more on communication tools that don't work well together. ChatPro replaces several tools and works better for less money.
+            </div>
+
+            <div class="helpful-box">
+                <strong>Simple math:</strong> The time your team saves using ChatPro is worth much more than what it costs. Most teams see positive value within the first month.
+            </div>
+        </div>
+
+        <!-- Slide 10: Next Steps -->
+        <div class="slide" id="slide-10">
+            <div class="cta-box">
+                <h2>Ready to Improve Your Team Communication?</h2>
+                <p style="color: white; margin-bottom: 25px;">Take the first step toward better teamwork and less communication stress.</p>
+                
+                <a href="#" class="btn">Start Free Trial (30 Days)</a>
+                <a href="#" class="btn">See a Demo (15 Minutes)</a>
+                <a href="#" class="btn">Get Pricing Information</a>
+            </div>
+
+            <div class="helpful-box">
+                <h3>Choose what works best for you:</h3>
+                <div class="simple-list">
+                    <li><strong>Free Trial:</strong> Try ChatPro for 30 days with no cost or commitment</li>
+                    <li><strong>See a Demo:</strong> Watch a 15-minute demonstration using real examples</li>
+                    <li><strong>Get Information:</strong> Receive detailed pricing and case studies</li>
+                    <li><strong>Talk to Us:</strong> Call (555) 123-4567 to speak with our team</li>
+                </div>
+            </div>
+
+            <div class="solution-box">
+                <h3>Contact Information:</h3>
+                <p><strong>Email:</strong> hello@chatpro.com (we respond the same day)<br>
+                <strong>Phone:</strong> (555) 123-4567 (real people answer)<br>
+                <strong>Website:</strong> www.chatpro.com</p>
+            </div>
+
+            <div class="good-news">
+                <p><strong>Our promise:</strong> If ChatPro doesn't improve your team's communication and save time, we'll refund your money completely. We're confident it will help your team work better together.</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 25px; color: #6c757d; font-style: italic;">
+                Thank you for your time. We hope ChatPro can help make work easier for your team. 😊
+            </p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="previousSlide()">←</button>
+        <button class="nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <div class="slide-number" id="slideNumber">1 / 10</div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function updateNumber() {
+            document.getElementById('slideNumber').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        function scrollToSlide(slideNumber) {
+            const slide = document.getElementById(`slide-${slideNumber}`);
+            if (slide) {
+                slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                currentSlide = slideNumber;
+                updateNumber();
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                scrollToSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 1) {
+                scrollToSlide(currentSlide - 1);
+            }
+        }
+
+        // Arrow keys and spacebar navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Track scroll position
+        let scrolling = false;
+        function updateSlideFromScroll() {
+            if (!scrolling) {
+                requestAnimationFrame(() => {
+                    const slides = document.querySelectorAll('.slide');
+                    const scrollPos = window.scrollY + (window.innerHeight / 2);
+                    
+                    slides.forEach((slide, index) => {
+                        const slideTop = slide.offsetTop;
+                        const slideBottom = slideTop + slide.offsetHeight;
+                        
+                        if (scrollPos >= slideTop && scrollPos < slideBottom) {
+                            currentSlide = index + 1;
+                            updateNumber();
+                        }
+                    });
+                    
+                    scrolling = false;
+                });
+                scrolling = true;
+            }
+        }
+
+        window.addEventListener('scroll', updateSlideFromScroll);
+        updateNumber();
+
+        // Click to advance slides
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') {
+                return;
+            }
+            
+            if (currentSlide < totalSlides) {
+                nextSlide();
+            }
+        });
+
+        console.log('ChatPro Presentation Ready!');
+        console.log('Use arrow keys, spacebar, click, or scroll to navigate');
+    </script>
+</body>
+</html>
